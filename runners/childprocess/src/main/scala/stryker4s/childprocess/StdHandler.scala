@@ -8,13 +8,16 @@ class StdHandler(messageHandler: MessageHandler) {
     var continue = true;
 
     val inputStream = new ObjectInputStream(System.in)
-    while (continue) {
-      val obj = inputStream.readObject().asInstanceOf[Request]
-      obj match {
-        case PoisonPill => continue = false
-        case other      => messageHandler.handle(other)
+    try {
+      while (continue) {
+        val obj = inputStream.readObject().asInstanceOf[Request]
+        obj match {
+          case PoisonPill => continue = false
+          case other      => messageHandler.handle(other)
+        }
       }
+    } finally {
+      inputStream.close()
     }
-
   }
 }
