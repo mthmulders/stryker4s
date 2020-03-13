@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - chore/perf-test
 
 jobs:
   core:
