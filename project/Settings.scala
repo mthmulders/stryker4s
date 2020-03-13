@@ -46,6 +46,13 @@ object Settings {
     scriptedBufferLog := false
   )
 
+  lazy val childProcessSettings: Seq[Setting[_]] = Seq(
+    Test / parallelExecution := true,
+    libraryDependencies ++= Seq(
+      Dependencies.testInterface
+    )
+  )
+
   lazy val buildLevelSettings: Seq[Setting[_]] = inThisBuild(
     releaseCommands ++
       buildInfo

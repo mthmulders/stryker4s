@@ -17,6 +17,7 @@ object Dependencies {
     val mutationTestingElements = "1.3.0"
     val mutationTestingMetrics = "1.3.0"
     val sttp = "2.0.5"
+    val testInterface = "1.0"
   }
 
   object test {
@@ -37,4 +38,5 @@ object Dependencies {
   val mutationTestingElements = "io.stryker-mutator" % "mutation-testing-elements" % versions.mutationTestingElements
   val mutationTestingMetrics =
     "io.stryker-mutator" %% "mutation-testing-metrics-circe" % versions.mutationTestingMetrics
+  val testInterface = "org.scala-sbt" % "test-interface" % versions.testInterface
 }

@@ -22,6 +22,9 @@ lazy val sbtStryker4s = newProject("sbt-stryker4s", "runners/sbt")
   .settings(Settings.sbtPluginSettings)
   .dependsOn(stryker4sCore)
 
+lazy val childProcess = newProject("stryker4s-childprocess", "runners/childprocess")
+  .settings(Settings.childProcessSettings)
+
 def newProject(projectName: String, dir: String): Project =
   sbt
     .Project(projectName, file(dir))
