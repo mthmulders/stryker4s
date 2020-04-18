@@ -2,21 +2,21 @@ import sbt._
 
 object Dependencies {
   object versions {
-    val scala212 = "2.12.10"
+    val scala212 = "2.12.11"
     val scala213 = "2.13.1"
 
-    val scalameta = "4.3.4"
+    val scalameta = "4.3.8"
     val pureconfig = "0.12.3"
     val scalatest = "3.1.0"
-    val mockitoScala = "1.12.0"
+    val mockitoScala = "1.13.9"
     val betterFiles = "3.8.0"
     val log4j = "2.13.1"
     val grizzledSlf4j = "1.3.4"
     val cats = "2.0.0"
     val circe = "0.13.0"
-    val mutationTestingElements = "1.3.0"
-    val mutationTestingMetrics = "1.3.0"
-    val sttp = "2.0.5"
+    val mutationTestingElements = "1.3.1"
+    val mutationTestingMetrics = "1.3.1"
+    val sttp = "2.0.8"
     val testInterface = "1.0"
   }
 
