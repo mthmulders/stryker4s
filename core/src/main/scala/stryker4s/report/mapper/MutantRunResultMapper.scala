@@ -5,6 +5,8 @@ import mutationtesting.MutantStatus.MutantStatus
 import mutationtesting._
 import stryker4s.config.{Config, Thresholds => ConfigThresholds}
 import stryker4s.model._
+import meta.XtensionSyntax
+import meta.prettyprinters.XtensionSyntax
 
 trait MutantRunResultMapper {
   protected[report] def toReport(results: Iterable[MutantRunResult])(implicit config: Config): MutationTestReport =

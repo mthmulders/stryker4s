@@ -2,36 +2,40 @@ import Release._
 import sbt.Keys._
 import sbt.ScriptedPlugin.autoImport.{scriptedBufferLog, scriptedLaunchOpts}
 import sbt._
-
+import dotty.tools.sbtplugin.DottyPlugin.autoImport.DottyCompatModuleID
 object Settings {
   lazy val commonSettings: Seq[Setting[_]] = Seq(
-    crossScalaVersions := Seq(Dependencies.versions.scala212, Dependencies.versions.scala213),
+    crossScalaVersions := Seq(
+      Dependencies.versions.dotty,
+      Dependencies.versions.scala212,
+      Dependencies.versions.scala213
+    ),
     scalaVersion := crossScalaVersions.value.head,
     Test / parallelExecution := false // For logging tests
   )
 
   lazy val coreSettings: Seq[Setting[_]] = Seq(
     libraryDependencies ++= Seq(
-      Dependencies.test.scalatest,
-      Dependencies.test.mockitoScala,
-      Dependencies.pureconfig,
-      Dependencies.scalameta,
-      Dependencies.betterFiles,
+      (Dependencies.test.scalatest).withDottyCompat(scalaVersion.value),
+      (Dependencies.test.mockitoScala).withDottyCompat(scalaVersion.value),
+      (Dependencies.pureconfig).withDottyCompat(scalaVersion.value),
+      (Dependencies.scalameta).withDottyCompat(scalaVersion.value),
+      (Dependencies.betterFiles).withDottyCompat(scalaVersion.value),
+      (Dependencies.grizzledSlf4j).withDottyCompat(scalaVersion.value),
+      (Dependencies.circeCore).withDottyCompat(scalaVersion.value),
+      (Dependencies.sttp).withDottyCompat(scalaVersion.value),
+      (Dependencies.mutationTestingMetrics).withDottyCompat(scalaVersion.value),
+      Dependencies.mutationTestingElements,
       Dependencies.log4jApi,
       Dependencies.log4jCore,
-      Dependencies.grizzledSlf4j,
-      Dependencies.log4jslf4jImpl % Test, // Logging tests need a slf4j implementation
-      Dependencies.circeCore,
-      Dependencies.sttp,
-      Dependencies.mutationTestingElements,
-      Dependencies.mutationTestingMetrics
+      Dependencies.log4jslf4jImpl % Test // Logging tests need a slf4j implementation
     )
   )
 
   lazy val commandRunnerSettings: Seq[Setting[_]] = Seq(
     libraryDependencies ++= Seq(
       Dependencies.log4jslf4jImpl,
-      Dependencies.test.scalatest
+      (Dependencies.test.scalatest).withDottyCompat(scalaVersion.value)
     )
   )
 

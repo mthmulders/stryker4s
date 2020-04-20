@@ -1,9 +1,9 @@
 package stryker4s.mutants.applymutants
-import scala.meta._
+import scala.meta.Term
 
 object ActiveMutationContext {
   type ActiveMutationContext = Term.Name
 
-  val envVar: ActiveMutationContext = q"env"
-  val sysProps: ActiveMutationContext = q"props"
+  val envVar: ActiveMutationContext = Term.Name("env")
+  val sysProps: ActiveMutationContext = Term.Name("props")
 }

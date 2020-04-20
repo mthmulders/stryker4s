@@ -3,7 +3,7 @@ package stryker4s.mutants.applymutants
 import stryker4s.extension.TreeExtensions._
 import stryker4s.model._
 
-import scala.meta.{Source, Term}
+import scala.meta._
 
 class StatementTransformer {
   def transformSource(source: Source, foundMutants: Seq[Mutant]): SourceTransformations = {

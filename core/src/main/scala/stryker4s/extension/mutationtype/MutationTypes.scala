@@ -1,7 +1,7 @@
 package stryker4s.extension.mutationtype
 
 import stryker4s.extension.TreeExtensions.IsEqualExtension
-
+import meta.internal.trees.XtensionTreesName
 import scala.meta.{Lit, Term, Tree}
 
 /**

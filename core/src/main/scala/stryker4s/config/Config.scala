@@ -2,7 +2,6 @@ package stryker4s.config
 
 import better.files._
 import pureconfig.ConfigWriter
-import pureconfig.generic.auto._
 
 case class Config(
     mutate: Seq[String] = Seq("**/main/scala/**.scala"),
@@ -18,7 +17,7 @@ object Config {
   lazy val default: Config = Config()
 
   def toHoconString(config: Config): String = {
-    import stryker4s.config.implicits.ConfigWriterImplicits._
+    import stryker4s.config.implicits.ConfigWriterImplicits.{given _}
 
     ConfigWriter[Config].to(config).render(options)
   }

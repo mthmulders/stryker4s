@@ -9,7 +9,6 @@ import pureconfig.error._
 import pureconfig.generic.ProductHint
 import pureconfig.{ConfigSource, Derivation, ConfigReader => PureConfigReader}
 import stryker4s.config.implicits.ConfigReaderImplicits
-import pureconfig.generic.auto._
 
 object ConfigReader extends ConfigReaderImplicits with Logging {
   val defaultConfigFileLocation: File = File.currentWorkingDirectory / "stryker4s.conf"
@@ -108,7 +107,9 @@ object ConfigReader extends ConfigReaderImplicits with Logging {
       * when unknown keys are present.
       * The names of the unknown keys are logged.
       */
-    def onUnknownKey: PartialFunction[ConfigReaderFailures, Derivation[PureConfigReader[Config]]] = {
+    def onUnknownKey(
+        implicit derivation: Derivation[PureConfigReader[Config]]
+    ): PartialFunction[ConfigReaderFailures, Derivation[PureConfigReader[Config]]] = {
       case ConfigReaderFailures(ConvertFailure(UnknownKey(key), _, _), failures) =>
         val unknownKeys = key :: failures.collect {
           case ConvertFailure(UnknownKey(k), _, _) => k
@@ -119,7 +120,7 @@ object ConfigReader extends ConfigReaderImplicits with Logging {
             s"stryker4s version: ${unknownKeys.mkString(", ")}.\n" +
             s"Please check the documentation at $configDocUrl for available options."
         )
-        implicitly[Derivation[PureConfigReader[Config]]]
+        derivation
     }
 
     /**
@@ -145,7 +146,7 @@ object ConfigReader extends ConfigReaderImplicits with Logging {
       error("Failures in reading config: ")
       error(failures.toList.map(_.description).mkString(System.lineSeparator))
 
-      throw ConfigReaderException(failures)
+      throw ConfigReaderException[Config](failures)
     }
   }
 }

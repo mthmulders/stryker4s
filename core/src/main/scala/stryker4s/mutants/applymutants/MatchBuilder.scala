@@ -42,15 +42,34 @@ class MatchBuilder(mutationContext: ActiveMutationContext) extends Logging {
     )
 
     val activeMutationEnv = Lit.String("ACTIVE_MUTATION")
-    q"(_root_.scala.sys.$mutationContext.get($activeMutationEnv) match { ..case $cases })"
+    // q"(_root_.scala.sys.$mutationContext.get($activeMutationEnv) match { ..case $cases })"
+    Term.Match(
+      Term.Apply(
+        Term.Select(
+          Term.Select(
+            Term.Select(
+              Term.Select(
+                Term.Name("_root_"),
+                Term.Name("scala")
+              ),
+              Term.Name("sys")
+            ),
+            mutationContext
+          ),
+          Term.Name("get")
+        ),
+        List(activeMutationEnv)
+      ),
+      cases
+    )
   }
 
   private def mutantToCase(mutant: Mutant): Case =
-    buildCase(mutant.mutated, p"Some(${Lit.String(mutant.id.toString)})")
+    buildCase(mutant.mutated, Pat.Extract(Term.Name("Some"), List(Lit.String(mutant.id.toString()))))
 
-  private def defaultCase(originalStatement: Term): Case = buildCase(originalStatement, p"_")
+  private def defaultCase(originalStatement: Term): Case = buildCase(originalStatement, Pat.Wildcard())
 
-  private def buildCase(expression: Term, pattern: Pat): Case = p"case $pattern => $expression"
+  private def buildCase(expression: Term, pattern: Pat): Case = Case(pattern, None, expression)
 
   private def groupTransformedStatements(transformedStatements: SourceTransformations): Seq[TransformedMutants] = {
     transformedStatements.transformedStatements

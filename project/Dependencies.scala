@@ -4,6 +4,7 @@ object Dependencies {
   object versions {
     val scala212 = "2.12.11"
     val scala213 = "2.13.1"
+    val dotty = "0.23.0-RC1"
 
     val scalameta = "4.3.8"
     val pureconfig = "0.12.3"

@@ -73,3 +73,7 @@ stryker4s.conf
 !.vscode/settings.json
 
 pom.xml.versionsBackup
+.classpath
+.factorypath
+.project
+.settings/

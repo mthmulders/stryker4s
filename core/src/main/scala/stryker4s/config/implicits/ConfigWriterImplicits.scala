@@ -6,23 +6,32 @@ import better.files.File
 import com.typesafe.config.ConfigRenderOptions
 import pureconfig.ConfigWriter
 import stryker4s.config.{DashboardReportType, ExcludedMutations, ReporterType}
-import pureconfig.generic.semiauto._
+import pureconfig.generic.semiauto.deriveEnumerationWriter
+import pureconfig.CollectionWriters.{given _}
+import pureconfig.BasicWriters.{given _}
 
-object ConfigWriterImplicits {
-  implicit private[config] val fileWriter: ConfigWriter[File] =
-    ConfigWriter[Path] contramap (_.path)
+trait ConfigWriterImplicits {
+  implicit val configWriter: pureconfig.ConfigWriter[stryker4s.config.Config] = null
+  implicit val fileWriter: ConfigWriter[File] =
+    ConfigWriter[Path].contramap(_.path)
 
-  implicit private[config] val exclusionsWriter: ConfigWriter[ExcludedMutations] =
-    ConfigWriter[List[String]] contramap (_.exclusions.toList)
+  implicit val exclusionsWriter: ConfigWriter[ExcludedMutations] =
+    ConfigWriter[List[String]].contramap(_.exclusions.toList)
 
-  implicit private[config] val reportersWriter: ConfigWriter[ReporterType] =
-    deriveEnumerationWriter[ReporterType]
+  implicit val reportersWriter: ConfigWriter[ReporterType] =
+  ConfigWriter[String].contramap {
+    case a => ReporterType.Html
+  }
 
-  implicit private[config] val dashboardReportTypeWriter: ConfigWriter[DashboardReportType] =
-    deriveEnumerationWriter[DashboardReportType]
+  implicit val dashboardReportTypeWriter: ConfigWriter[DashboardReportType] =
+    ConfigWriter[String].contramap {
+      case a => DashboardReportType.Full
+    }
 
-  private[config] val options: ConfigRenderOptions = ConfigRenderOptions
+  val options: ConfigRenderOptions = ConfigRenderOptions
     .defaults()
     .setOriginComments(false)
     .setJson(false)
 }
+
+object ConfigWriterImplicits extends ConfigWriterImplicits

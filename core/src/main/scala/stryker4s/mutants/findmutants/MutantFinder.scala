@@ -6,8 +6,7 @@ import stryker4s.config.Config
 import stryker4s.extension.FileExtensions._
 import stryker4s.model.{Mutant, MutationsInSource}
 
-import scala.meta.Source
-import scala.meta.parsers.{Parsed, XtensionParseInputLike}
+import scala.meta._
 
 class MutantFinder(matcher: MutantMatcher)(implicit config: Config) extends Logging {
   def mutantsInFile(filePath: File): MutationsInSource = {

@@ -5,6 +5,8 @@ import scala.meta.transversers.SimpleTraverser
 import scala.meta.{Case, Lit, Term, Transformer, Tree}
 import scala.reflect.ClassTag
 import scala.util.Try
+import meta.XtensionStructure
+import meta.prettyprinters.XtensionStructure
 
 object TreeExtensions {
   @tailrec
